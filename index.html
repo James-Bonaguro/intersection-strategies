@@ -34,20 +34,20 @@
   }
   .logo {
     font-family: 'Cormorant Garamond', serif;
-    font-weight: 600; font-size: 18px;
+    font-weight: 600; font-size: 20px;
     letter-spacing: 0.1em; text-transform: uppercase;
     color: #f0ece5;
   }
   .logo span { color: var(--gold); }
   .nav-cta {
-    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--muted); text-decoration: none; transition: color 0.2s;
   }
   .nav-cta:hover { color: var(--gold); }
 
   .hero {
-    min-height: 100vh;
-    padding: 140px 48px 100px;
+    min-height: 85vh;
+    padding: 120px 48px 60px;
     display: flex; flex-direction: column; justify-content: center;
     position: relative; overflow: hidden;
   }
@@ -59,7 +59,7 @@
     pointer-events: none;
   }
   .eyebrow {
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--gold); margin-bottom: 24px;
     display: flex; align-items: center; gap: 10px;
   }
@@ -73,17 +73,17 @@
   }
   h1 em { font-style: italic; color: var(--gold-light); }
   .hero-sub {
-    font-size: 20px; color: var(--muted); max-width: 560px;
-    line-height: 1.7; margin-bottom: 48px;
+    font-size: 22px; color: var(--muted); max-width: 600px;
+    line-height: 1.7; margin-bottom: 40px;
   }
   .scroll-hint {
-    font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--muted); display: flex; align-items: center; gap: 10px;
   }
   .scroll-hint::after { content: ''; width: 24px; height: 1px; background: var(--muted); display: block; }
 
   .work {
-    padding: 80px 48px 100px;
+    padding: 40px 48px 60px;
     max-width: 1200px; margin: 0 auto;
   }
 
@@ -101,16 +101,16 @@
   .work-row:last-child { border-bottom: 1px solid var(--border); }
 
   .work-industry {
-    font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--muted); padding-top: 4px; line-height: 1.6;
   }
   .work-body h3 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; font-weight: 300;
+    font-size: 30px; font-weight: 300;
     color: #f0ece5; line-height: 1.2; margin-bottom: 8px;
   }
   .work-body p {
-    font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 520px;
+    font-size: 18px; color: var(--muted); line-height: 1.7; max-width: 560px;
   }
   .work-stats { display: flex; gap: 28px; padding-top: 4px; flex-shrink: 0; }
   .stat { text-align: right; }
@@ -120,10 +120,10 @@
     color: var(--gold-light);
   }
   .stat-n sup { font-size: 20px; }
-  .stat-d { font-size: 13px; color: var(--muted); margin-top: 2px; line-height: 1.4; max-width: 120px; margin-left: auto; }
+  .stat-d { font-size: 14px; color: var(--muted); margin-top: 2px; line-height: 1.4; max-width: 130px; margin-left: auto; }
 
   .contact {
-    padding: 100px 48px;
+    padding: 70px 48px;
     background: var(--surface);
     border-top: 1px solid var(--border);
   }
@@ -137,9 +137,9 @@
     color: #f0ece5; line-height: 1.05;
   }
   .contact h2 em { font-style: italic; color: var(--gold-light); }
-  .contact-right p { font-size: 18px; color: var(--muted); line-height: 1.8; margin-bottom: 36px; }
+  .contact-right p { font-size: 20px; color: var(--muted); line-height: 1.8; margin-bottom: 36px; }
   .email-link {
-    font-size: 18px; color: var(--gold); text-decoration: none;
+    font-size: 20px; color: var(--gold); text-decoration: none;
     border-bottom: 1px solid rgba(201,168,76,0.25);
     padding-bottom: 3px; display: inline-flex; align-items: center; gap: 10px;
     transition: all 0.2s;
@@ -150,7 +150,7 @@
     padding: 28px 48px; border-top: 1px solid var(--border);
     display: flex; justify-content: space-between; align-items: center;
   }
-  .footer-r { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+  .footer-r { font-size: 14px; color: var(--muted); letter-spacing: 0.04em; }
 
   @media (max-width: 900px) {
     nav, .hero, .work, .contact, footer { padding-left: 24px; padding-right: 24px; }
@@ -275,12 +275,16 @@
     <div class="work-industry">Financial Services<br>Advisory</div>
     <div class="work-body">
       <h3>Documentation process automation</h3>
-      <p>Automating manual documentation workflows across three advisory offices, reducing administrative overhead and streamlining day-to-day operations.</p>
+      <p>Automating manual documentation workflows for a financial advisory office with three advisors, reducing administrative overhead and streamlining day-to-day operations.</p>
     </div>
     <div class="work-stats">
       <div class="stat">
         <div class="stat-n">3</div>
-        <div class="stat-d">advisory offices</div>
+        <div class="stat-d">advisors</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n" style="font-size:28px;">Pending</div>
+        <div class="stat-d">engagement status</div>
       </div>
     </div>
   </div>
