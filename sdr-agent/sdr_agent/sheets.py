@@ -1,12 +1,6 @@
-"""Google Sheets export module for writing business search results."""
+"""Google Sheets export module using the Sheets API with an API key."""
 
-import gspread
-from google.oauth2.service_account import Credentials
-
-SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive",
-]
+from googleapiclient.discovery import build
 
 HEADERS = [
     "Name",
@@ -21,23 +15,19 @@ HEADERS = [
 ]
 
 
-def get_sheets_client(credentials_path: str) -> gspread.Client:
-    """Authenticate and return a gspread client using a service account."""
-    creds = Credentials.from_service_account_file(credentials_path, scopes=SCOPES)
-    return gspread.authorize(creds)
-
-
 def export_to_sheet(
-    client: gspread.Client,
+    api_key: str,
     spreadsheet_id: str,
     results: list[dict],
     worksheet_name: str = "Sheet1",
 ) -> str:
     """
-    Write search results to a Google Sheet.
+    Write search results to a Google Sheet using an API key.
+
+    The spreadsheet must be shared as "Anyone with the link can edit".
 
     Args:
-        client: Authenticated gspread client.
+        api_key: Google API key with Sheets API enabled.
         spreadsheet_id: ID of the target Google Spreadsheet.
         results: List of business result dicts.
         worksheet_name: Name of the worksheet tab to write to.
@@ -45,22 +35,27 @@ def export_to_sheet(
     Returns:
         URL of the updated spreadsheet.
     """
-    spreadsheet = client.open_by_key(spreadsheet_id)
+    service = build("sheets", "v4", developerKey=api_key)
+    sheets = service.spreadsheets()
 
-    try:
-        worksheet = spreadsheet.worksheet(worksheet_name)
-    except gspread.WorksheetNotFound:
-        worksheet = spreadsheet.add_worksheet(
-            title=worksheet_name, rows=len(results) + 1, cols=len(HEADERS)
-        )
+    rows = [HEADERS] + [_result_to_row(r) for r in results]
 
-    rows = [_result_to_row(r) for r in results]
-    data = [HEADERS] + rows
+    # Clear existing content then write new data
+    range_name = f"{worksheet_name}!A1"
+    sheets.values().clear(
+        spreadsheetId=spreadsheet_id,
+        range=f"{worksheet_name}",
+        body={},
+    ).execute()
 
-    worksheet.clear()
-    worksheet.update(range_name="A1", values=data)
+    sheets.values().update(
+        spreadsheetId=spreadsheet_id,
+        range=range_name,
+        valueInputOption="RAW",
+        body={"values": rows},
+    ).execute()
 
-    return spreadsheet.url
+    return f"https://docs.google.com/spreadsheets/d/{spreadsheet_id}"
 
 
 def _result_to_row(result: dict) -> list[str]:

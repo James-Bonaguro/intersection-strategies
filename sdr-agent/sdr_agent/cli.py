@@ -8,11 +8,12 @@ import googlemaps
 
 from .csv_export import export_to_csv
 from .search import enrich_results, search_businesses
+from .sheets import export_to_sheet
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="SDR Agent — Search for businesses and export leads to CSV."
+        description="SDR Agent — Search for businesses and export leads."
     )
     parser.add_argument(
         "query",
@@ -42,9 +43,23 @@ def main():
         help="Output CSV file path (default: results.csv)",
     )
     parser.add_argument(
+        "--sheet-id",
+        help="Google Spreadsheet ID — if provided, results export to Sheets instead of CSV",
+    )
+    parser.add_argument(
+        "--worksheet",
+        default="Sheet1",
+        help="Worksheet tab name when exporting to Sheets (default: Sheet1)",
+    )
+    parser.add_argument(
         "--google-api-key",
         default=os.environ.get("GOOGLE_MAPS_API_KEY"),
-        help="Google Maps API key (or set GOOGLE_MAPS_API_KEY env var)",
+        help="Google API key (or set GOOGLE_MAPS_API_KEY env var)",
+    )
+    parser.add_argument(
+        "--sheets-api-key",
+        default=os.environ.get("GOOGLE_SHEETS_API_KEY"),
+        help="Separate API key for Sheets (defaults to --google-api-key if not set)",
     )
     parser.add_argument(
         "--no-enrich",
@@ -55,7 +70,7 @@ def main():
     args = parser.parse_args()
 
     if not args.google_api_key:
-        print("Error: Google Maps API key is required.")
+        print("Error: Google API key is required.")
         print("Set GOOGLE_MAPS_API_KEY env var or pass --google-api-key.")
         sys.exit(1)
 
@@ -82,10 +97,21 @@ def main():
         print("Fetching detailed info for each business...")
         results = enrich_results(gmaps, results)
 
-    # Export to CSV
-    print(f"Saving results to {args.output}...")
-    path = export_to_csv(results, args.output)
-    print(f"Done! {len(results)} businesses saved to: {path}")
+    # Export results
+    if args.sheet_id:
+        sheets_key = args.sheets_api_key or args.google_api_key
+        print("Exporting to Google Sheets...")
+        url = export_to_sheet(
+            api_key=sheets_key,
+            spreadsheet_id=args.sheet_id,
+            results=results,
+            worksheet_name=args.worksheet,
+        )
+        print(f"Done! {len(results)} businesses exported to: {url}")
+    else:
+        print(f"Saving results to {args.output}...")
+        path = export_to_csv(results, args.output)
+        print(f"Done! {len(results)} businesses saved to: {path}")
 
 
 if __name__ == "__main__":
