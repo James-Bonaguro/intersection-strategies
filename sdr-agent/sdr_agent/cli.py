@@ -6,6 +6,7 @@ import sys
 
 import googlemaps
 
+from .analyzer import analyze_businesses
 from .csv_export import export_to_csv
 from .search import enrich_results, search_businesses
 from .sheets import export_to_sheet
@@ -13,7 +14,7 @@ from .sheets import export_to_sheet
 
 def main():
     parser = argparse.ArgumentParser(
-        description="SDR Agent — Search for businesses and export leads."
+        description="SDR Agent — Search for businesses, score leads, and export."
     )
     parser.add_argument(
         "query",
@@ -66,6 +67,11 @@ def main():
         action="store_true",
         help="Skip fetching detailed info (phone, website) for each result",
     )
+    parser.add_argument(
+        "--no-analyze",
+        action="store_true",
+        help="Skip website quality scoring and ownership classification",
+    )
 
     args = parser.parse_args()
 
@@ -97,6 +103,12 @@ def main():
         print("Fetching detailed info for each business...")
         results = enrich_results(gmaps, results)
 
+    # Analyze websites for quality scoring and ownership classification
+    if not args.no_analyze:
+        print("Analyzing websites (scoring quality, classifying ownership)...")
+        results = analyze_businesses(results)
+        _print_analysis_summary(results)
+
     # Export results
     if args.sheet_id:
         sheets_key = args.sheets_api_key or args.google_api_key
@@ -112,6 +124,20 @@ def main():
         print(f"Saving results to {args.output}...")
         path = export_to_csv(results, args.output)
         print(f"Done! {len(results)} businesses saved to: {path}")
+
+
+def _print_analysis_summary(results: list[dict]) -> None:
+    """Print a brief summary of the analysis results."""
+    independent = sum(1 for r in results if r.get("ownership_type") == "Independent")
+    group = sum(1 for r in results if r.get("ownership_type") == "Group/DSO")
+    unknown = sum(1 for r in results if r.get("ownership_type") == "Unknown")
+
+    scored = [r for r in results if r.get("website_score", 0) > 0]
+    avg_score = sum(r["website_score"] for r in scored) / len(scored) if scored else 0
+    high_quality = sum(1 for r in scored if r["website_score"] >= 60)
+
+    print(f"\n  Ownership: {independent} Independent | {group} Group/DSO | {unknown} Unknown")
+    print(f"  Quality:   {high_quality} high-scoring leads (avg score: {avg_score:.0f}/100)\n")
 
 
 if __name__ == "__main__":

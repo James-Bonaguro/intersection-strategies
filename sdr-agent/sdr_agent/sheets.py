@@ -12,6 +12,10 @@ HEADERS = [
     "Business Status",
     "Types",
     "Google Maps URL",
+    "Website Score",
+    "Score Reasons",
+    "Ownership Type",
+    "Ownership Signals",
 ]
 
 
@@ -70,4 +74,8 @@ def _result_to_row(result: dict) -> list[str]:
         str(result.get("business_status", "")),
         str(result.get("types", "")),
         str(result.get("google_maps_url", "")),
+        str(result.get("website_score", "")),
+        str(result.get("score_reasons", "")),
+        str(result.get("ownership_type", "")),
+        str(result.get("ownership_signals", "")),
     ]
