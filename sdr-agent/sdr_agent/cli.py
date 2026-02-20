@@ -6,13 +6,13 @@ import sys
 
 import googlemaps
 
+from .csv_export import export_to_csv
 from .search import enrich_results, search_businesses
-from .sheets import export_to_sheet, get_sheets_client
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="SDR Agent — Search for businesses and export leads to Google Sheets."
+        description="SDR Agent — Search for businesses and export leads to CSV."
     )
     parser.add_argument(
         "query",
@@ -36,24 +36,15 @@ def main():
         help="Maximum number of results (default: 60, max: 60)",
     )
     parser.add_argument(
-        "--sheet-id",
-        required=True,
-        help="Google Spreadsheet ID to export results to",
-    )
-    parser.add_argument(
-        "--worksheet",
-        default="Sheet1",
-        help="Worksheet tab name (default: Sheet1)",
+        "--output",
+        "-o",
+        default="results.csv",
+        help="Output CSV file path (default: results.csv)",
     )
     parser.add_argument(
         "--google-api-key",
         default=os.environ.get("GOOGLE_MAPS_API_KEY"),
         help="Google Maps API key (or set GOOGLE_MAPS_API_KEY env var)",
-    )
-    parser.add_argument(
-        "--credentials-file",
-        default=os.environ.get("GOOGLE_SERVICE_ACCOUNT_FILE", "credentials.json"),
-        help="Path to Google service account JSON file (default: credentials.json)",
     )
     parser.add_argument(
         "--no-enrich",
@@ -66,11 +57,6 @@ def main():
     if not args.google_api_key:
         print("Error: Google Maps API key is required.")
         print("Set GOOGLE_MAPS_API_KEY env var or pass --google-api-key.")
-        sys.exit(1)
-
-    if not os.path.exists(args.credentials_file):
-        print(f"Error: Credentials file not found: {args.credentials_file}")
-        print("Set GOOGLE_SERVICE_ACCOUNT_FILE env var or pass --credentials-file.")
         sys.exit(1)
 
     # Initialize Google Maps client
@@ -96,16 +82,10 @@ def main():
         print("Fetching detailed info for each business...")
         results = enrich_results(gmaps, results)
 
-    # Export to Google Sheets
-    print(f"Exporting to Google Sheet...")
-    sheets_client = get_sheets_client(args.credentials_file)
-    url = export_to_sheet(
-        client=sheets_client,
-        spreadsheet_id=args.sheet_id,
-        results=results,
-        worksheet_name=args.worksheet,
-    )
-    print(f"Done! Results exported to: {url}")
+    # Export to CSV
+    print(f"Saving results to {args.output}...")
+    path = export_to_csv(results, args.output)
+    print(f"Done! {len(results)} businesses saved to: {path}")
 
 
 if __name__ == "__main__":
