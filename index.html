@@ -82,10 +82,36 @@
   }
   .scroll-hint::after { content: ''; width: 24px; height: 1px; background: var(--muted); display: block; }
 
-  .work {
+  /* New Process Section */
+  .process {
     padding: 40px 48px 60px;
     max-width: 1200px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
   }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;
+    margin-top: 32px;
+  }
+  .process-step h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 26px; 
+    color: var(--gold-light); margin-bottom: 16px; font-weight: 300;
+  }
+  .process-step p {
+    font-size: 16px; color: var(--muted); line-height: 1.7;
+  }
+
+  .work {
+    padding: 0px 48px 60px;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .category-header {
+    font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin: 80px 0 20px 0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .category-header::before { content: ''; width: 28px; height: 1px; background: var(--gold); display: block; }
+
 
   .work-row {
     display: grid;
@@ -94,11 +120,14 @@
     padding: 36px 0;
     border-top: 1px solid var(--border);
     gap: 48px;
+  }
+  .work-row:last-child { border-bottom: 1px solid var(--border); }
+
+  .fade-up {
     opacity: 0; transform: translateY(16px);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  .work-row.visible { opacity: 1; transform: translateY(0); }
-  .work-row:last-child { border-bottom: 1px solid var(--border); }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
 
   .work-industry {
     font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -122,9 +151,27 @@
   .stat-n sup { font-size: 20px; }
   .stat-d { font-size: 14px; color: var(--muted); margin-top: 2px; line-height: 1.4; max-width: 130px; margin-left: auto; }
 
+  /* New Architect Section */
+  .architect {
+    padding: 80px 48px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .architect-inner {
+    max-width: 700px; margin: 0 auto; text-align: center;
+  }
+  .architect-inner h2 {
+    font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: #f0ece5; margin-bottom: 24px;
+  }
+  .architect-inner p {
+    font-size: 18px; color: var(--muted); line-height: 1.8; margin-bottom: 24px;
+  }
+  .architect-name {
+    font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold);
+  }
+
   .contact {
     padding: 70px 48px;
-    background: var(--surface);
     border-top: 1px solid var(--border);
   }
   .contact-inner {
@@ -149,12 +196,14 @@
   footer {
     padding: 28px 48px; border-top: 1px solid var(--border);
     display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface);
   }
   .footer-r { font-size: 14px; color: var(--muted); letter-spacing: 0.04em; }
 
   @media (max-width: 900px) {
-    nav, .hero, .work, .contact, footer { padding-left: 24px; padding-right: 24px; }
+    nav, .hero, .process, .work, .architect, .contact, footer { padding-left: 24px; padding-right: 24px; }
     h1 { font-size: clamp(44px, 10vw, 72px); }
+    .process-grid { grid-template-columns: 1fr; gap: 32px; }
     .work-row { grid-template-columns: 1fr; gap: 20px; }
     .work-stats { justify-content: flex-start; }
     .stat { text-align: left; }
@@ -173,17 +222,36 @@
 <div class="hero">
   <div class="eyebrow">Intersection Strategies</div>
   <h1>We build systems<br>that give your team<br><em>their time back.</em></h1>
-  <p class="hero-sub">By understanding how your business actually runs, we build custom automations and infrastructure that eliminate manual processes and drive measurable results.</p>
-  <div class="scroll-hint">Recent client engagements</div>
+  <p class="hero-sub">By understanding how your business actually runs, we engineer custom infrastructure and automations that eliminate manual friction, accelerate output, and drive measurable margin.</p>
+  <div class="scroll-hint">How we operate</div>
+</div>
+
+<div class="process">
+  <div class="process-grid fade-up">
+    <div class="process-step">
+      <h4>01. Workflow Audit</h4>
+      <p>We map your invisible administrative debt and identify high-leverage bottlenecks without disrupting your current operations.</p>
+    </div>
+    <div class="process-step">
+      <h4>02. Infrastructure Build</h4>
+      <p>We design and deploy custom, zero-headcount technical solutions tailored strictly to your operational reality.</p>
+    </div>
+    <div class="process-step">
+      <h4>03. Seamless Deployment</h4>
+      <p>We integrate the systems, train your team, and ensure the infrastructure runs quietly and effectively in the background.</p>
+    </div>
+  </div>
 </div>
 
 <div class="work">
 
-  <div class="work-row">
-    <div class="work-industry">Healthcare<br>Private Practice</div>
+  <div class="category-header fade-up">Frontline Operations & Engagement</div>
+
+  <div class="work-row fade-up">
+    <div class="work-industry">Healthcare<br>Patient Comms</div>
     <div class="work-body">
-      <h3>Patient communication & scheduling automation</h3>
-      <p>Rebuilt front-desk workflows with automated reminders, missed-call recovery, and cancellation backfill. No new headcount.</p>
+      <h3>Automated scheduling & missed-call recovery</h3>
+      <p>Rebuilt front-desk workflows with automated reminders, missed-call recovery, and cancellation backfill. Zero new headcount required.</p>
     </div>
     <div class="work-stats">
       <div class="stat">
@@ -197,11 +265,27 @@
     </div>
   </div>
 
-  <div class="work-row">
+  <div class="work-row fade-up">
+    <div class="work-industry">Small Business<br>Marketing Ops</div>
+    <div class="work-body">
+      <h3>Automated content & lead pipelines</h3>
+      <p>Constructed automated content and communication pipelines. Consistent posting, lead nurturing, and client follow-up running entirely on autopilot.</p>
+    </div>
+    <div class="work-stats">
+      <div class="stat">
+        <div class="stat-n">100<sup>%</sup></div>
+        <div class="stat-d">automated drafting & distribution</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-header fade-up">Intelligence & Diligence Infrastructure</div>
+
+  <div class="work-row fade-up">
     <div class="work-industry">Private Credit<br>Deal Analysis</div>
     <div class="work-body">
-      <h3>Deal research & competitive analysis infrastructure</h3>
-      <p>Built structured templates for deal research and competitive analysis. Trained investment staff on streamlined workflows that accelerated deal structuring and review.</p>
+      <h3>Deal research & competitive analysis engine</h3>
+      <p>Built structured templates and automated infrastructure for deal research. Trained investment staff on streamlined workflows that accelerated deal structuring.</p>
     </div>
     <div class="work-stats">
       <div class="stat">
@@ -211,10 +295,40 @@
     </div>
   </div>
 
-  <div class="work-row">
+  <div class="work-row fade-up">
+    <div class="work-industry">Medical Research<br>Clinical Teams</div>
+    <div class="work-body">
+      <h3>Literature review automation</h3>
+      <p>Deployed custom research infrastructure for active medical residents and a PhD researcher, compressing weeks of literature review into hours.</p>
+    </div>
+    <div class="work-stats">
+      <div class="stat">
+        <div class="stat-n">2-3<sup>wk</sup></div>
+        <div class="stat-d">saved per researcher per project</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="work-row fade-up">
+    <div class="work-industry">Automotive<br>Enterprise</div>
+    <div class="work-body">
+      <h3>Weekly market intelligence infrastructure</h3>
+      <p>Engineered a systemic data-gathering process to deliver weekly reports covering hiring trends, supply chain shifts, and emerging vehicle tech.</p>
+    </div>
+    <div class="work-stats">
+      <div class="stat">
+        <div class="stat-n">11</div>
+        <div class="stat-d">active shop & dealership clients</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-header fade-up">Administrative & Compliance Workflows</div>
+
+  <div class="work-row fade-up">
     <div class="work-industry">Corporate<br>Executive Ops</div>
     <div class="work-body">
-      <h3>Automated inbox management</h3>
+      <h3>Autonomous inbox management</h3>
       <p>Built a system that continuously organizes, labels, and surfaces what matters, replacing all manual email sorting and inbox management entirely.</p>
     </div>
     <div class="work-stats">
@@ -225,88 +339,47 @@
     </div>
   </div>
 
-  <div class="work-row">
-    <div class="work-industry">Small Business<br>Marketing</div>
-    <div class="work-body">
-      <h3>Automated marketing content across social channels</h3>
-      <p>Building automated content pipelines for a growing practice. Consistent posting, lead nurturing, and client follow-up running on autopilot.</p>
-    </div>
-    <div class="work-stats">
-      <div class="stat">
-        <div class="stat-n" style="font-size:28px;">Ongoing</div>
-        <div class="stat-d">active engagement</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="work-row">
-    <div class="work-industry">Automotive<br>Dealerships & Repair</div>
-    <div class="work-body">
-      <h3>Weekly market intelligence & industry research</h3>
-      <p>Delivering weekly research reports on the current state of the industry covering hiring trends, parts supply chain, succession planning, total-loss claims, and emerging vehicle technology.</p>
-    </div>
-    <div class="work-stats">
-      <div class="stat">
-        <div class="stat-n">11</div>
-        <div class="stat-d">active shop & dealership clients</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="work-row">
-    <div class="work-industry">Healthcare<br>Medical Research</div>
-    <div class="work-body">
-      <h3>Research infrastructure for clinical teams</h3>
-      <p>Deployed for active medical residents and a PhD researcher, compressing weeks of literature review into hours.</p>
-    </div>
-    <div class="work-stats">
-      <div class="stat">
-        <div class="stat-n">2-3<sup>wk</sup></div>
-        <div class="stat-d">saved per researcher</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">3</div>
-        <div class="stat-d">residents & researchers</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="work-row">
+  <div class="work-row fade-up">
     <div class="work-industry">Financial Services<br>Advisory</div>
     <div class="work-body">
       <h3>Documentation process automation</h3>
-      <p>Automating manual documentation workflows for a financial advisory office with three advisors, reducing administrative overhead and streamlining day-to-day operations.</p>
+      <p>Automating manual compliance and documentation workflows for a financial advisory office, reducing administrative overhead and streamlining day-to-day operations.</p>
     </div>
     <div class="work-stats">
       <div class="stat">
-        <div class="stat-n">3</div>
-        <div class="stat-d">advisors</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n" style="font-size:28px;">Ongoing</div>
-        <div class="stat-d">active engagement</div>
+        <div class="stat-n">10<sup>+</sup></div>
+        <div class="stat-d">admin hours saved weekly</div>
       </div>
     </div>
   </div>
 
 </div>
 
+<div class="architect">
+  <div class="architect-inner fade-up">
+    <h2>The Architect</h2>
+    <p>I built Intersection Strategies because I saw highly capable teams drowning in administrative debt. Combining a foundation in finance with deep operational experience, from building Voice of Customer programs to scaling solutions across the automotive and tech sectors, I engineer the infrastructure that protects your time and your margins.</p>
+    <div class="architect-name">James Bonaguro &nbsp;&middot;&nbsp; Founder</div>
+  </div>
+</div>
+
 <div class="contact" id="contact">
-  <div class="contact-inner">
+  <div class="contact-inner fade-up">
     <h2>Let's find out<br>where your time<br><em>is going.</em></h2>
     <div class="contact-right">
       <p>One conversation. No pitch. We'll know quickly if there's a fit.</p>
-      <a href="mailto:james@intersectionstrategies.com" class="email-link">james@intersectionstrategies.com →</a>
+      <a href="mailto:james@intersectionstrategies.com" class="email-link">Book 15 Minutes Here →</a>
     </div>
   </div>
 </div>
 
 <footer>
   <div class="logo" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:#f0ece5;">Intersection<span style="color:var(--gold)">.</span></div>
-  <div class="footer-r">&copy; 2026 Intersection Strategies LLC &nbsp;&middot;&nbsp; Chicago, IL</div>
+  <div class="footer-r">&copy; 2026 Intersection Strategies LLC &nbsp;&middot;&nbsp; Orland Park, IL</div>
 </footer>
 
 <script>
+  // Updated IntersectionObserver to handle all new fade-up elements
   const io = new IntersectionObserver(entries => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -315,7 +388,8 @@
       }
     });
   }, { threshold: 0.05 });
-  document.querySelectorAll('.work-row').forEach(el => io.observe(el));
+  
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
